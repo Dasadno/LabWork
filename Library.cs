@@ -55,7 +55,7 @@ namespace ConsoleApp1
         }
 
         public IEnumerable<T> FilterByYear(int year)
-        {
+        { 
             if (year == null) throw new ArgumentNullException("argument can't be null");
             List<T> li = new List<T>();
 
