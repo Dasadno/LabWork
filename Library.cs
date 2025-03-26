@@ -14,60 +14,65 @@ namespace ConsoleApp1
 
         private List<T> _list = new List<T>();
 
-        public void Add(T item)
-        {
-            try
-            {
-                MediaList.Add(item);
-            }
-            catch (Exception)
-            {
+         public void Add(T item)
+ {
+     if (_dict.ContainsValue(item)) { throw new Exception("Item already exist"); }
+         _dict.Add(item.Title, item);
+         MediaList.Add(item);
+ }
+ public bool RemoveFromDictByTitle(string title)
+ {
+     ArgumentNullException.ThrowIfNull(title);
+     return _dict.Remove(title);
+ }
 
-                throw new Exception("Item already exist");
-            }
-            
-        }
-        public bool Remove(string title)
-        {
-            if (title == null) throw new ArgumentNullException("argument can't be null");
-            foreach (var item in MediaList)
-            {
-                if (item.Title == title)
-                {
-                    MediaList.Remove(item);
-                    return true;
-                }
-            }
-            return false;
-        }
+ public T FindInDictByTitle(string title)
+ {
+     ArgumentNullException.ThrowIfNull(title);
+     T Val = _dict[title];
+     return Val;
+ }
+ public bool Remove(string title)
+ {
+     ArgumentNullException.ThrowIfNull(title);
+     foreach (var item in MediaList)
+     {
+         if (item.Title == title)
+         {
+             MediaList.Remove(item);
+             return true;
+         }
+     }
+     return false;
+ }
 
-        public T FindByTitle(string title)
-        {
-            if (title == null) throw new ArgumentNullException("argument can't be null");
-            foreach (var item in MediaList)
-            {
-                if (item.Title == title)
-                {
-                    return item;
-                }
-            }
-            return null;
-        }
+ public T FindByTitle(string title)
+ {
+     ArgumentNullException.ThrowIfNull(title);
+     foreach (var item in MediaList)
+     {
+         if (item.Title == title)
+         {
+             return item;
+         }
+     }
+     return null;
+ }
 
-        public IEnumerable<T> FilterByYear(int year)
-        { 
-            if (year == null) throw new ArgumentNullException("argument can't be null");
-            List<T> li = new List<T>();
+ public IEnumerable<T> FilterByYear(int year)
+ {
+     ArgumentNullException.ThrowIfNull(year);
+     List<T> li = new List<T>();
 
-            foreach (var item in MediaList)
-            {
-                if (item.YearPublished == year)
-                {
-                    li.Add(item);
-                }
-            }
-            return li;
-        }
+     foreach (var item in MediaList)
+     {
+         if (item.YearPublished == year)
+         {
+             li.Add(item);
+         }
+     }
+     return li;
+ }
 
         public IEnumerable<T> GetAllAvailable()
         {
